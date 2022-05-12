@@ -1,0 +1,36 @@
+﻿@page
+@model TestIdentity.Pages.AdminPage.RentDetailsModel
+@{
+}
+
+<div class="m-2">
+    <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr><th>Name</th><th>Lastname</th><th>Phone number</th><th>Car</th>
+            <th>Car model</th><th>From</th><th>To</th><th>Total cost</th><th>City</th>
+        </thead>
+        @foreach (var item in Model.users)
+        {
+            <tbody>
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Lastname</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.Car.Name</td>
+                    <td>@item.Car.Model</td>
+                    <td>@item.DateFrom.ToString("d")</td>
+                    <td>@item.DateTo.ToString("d")</td>
+                    <td>@item.TotalCost.ToString("N")</td>
+                    <td>@item.Car.City.Name</td>
+                    @*<td>
+                        <a asp-page="DeleteCar" asp-route-id="@item.rentId">Delete</a>
+                    </td>
+                    <td>
+                        <a asp-page="EditCar" asp-route-id="@item.rentId">Edit</a>
+                    </td>*@
+                </tr>
+            </tbody>
+        }
+
+    </table>
+</div>

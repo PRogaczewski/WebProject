@@ -1,0 +1,57 @@
+﻿@page
+@model CarRentalWebProject.Pages.CarRental.EditCarModel
+@{
+}
+
+<h1>Edit a car</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="carView.Id" />
+            <div class="form-group">
+                <label asp-for="carView.Name" class="control-label"></label>
+                <input asp-for="carView.Name" class="form-control" />
+                <span asp-validation-for="carView.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="carView.Model" class="control-label"></label>
+                <input asp-for="carView.Model" class="form-control" />
+                <span asp-validation-for="carView.Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="carView.Price" class="control-label"></label>
+                <input asp-for="carView.Price" class="form-control" />
+                <span asp-validation-for="carView.Price" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h4 class="my-4 h4 secondary-heading">Select city</h4>
+                    <select asp-for="city.Id" class="browser-default custom-select">
+                        <option value="carView.City.Id">@Model.carView.City.Name</option>
+                        @foreach (var item in Model.cities)
+                        {
+                            @if(item.Id!=Model.carView.City.Id)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Cars">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

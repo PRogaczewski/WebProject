@@ -1,0 +1,50 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-3">Welcome to car rental </h1>
+    <div class="display-4">Display all cars</div>
+    <div class="col-md-12 text-center">
+        <a class="btn btn-outline-dark btn-lg" href="/CarRental/Cars">Display all cars</a>
+    </div>
+    <div class="display-4">Pick dates to display available cars</div>
+    <div class="row">
+        <form method="post" class="col-md-12 text-center">
+            <div class="col-md-12 text-center">
+                <label class="control-label">From: </label>
+                <input asp-for="user.DateFrom" type="date" id="DateFrom" style="width: 200px" />
+                <span asp-validation-for="user.DateFrom" class="text-danger"></span>
+            </div>
+            <div class="col-md-12 text-center">
+                <label class="control-label">To: </label>
+                <input asp-for="user.DateTo" type="date" id="DateTo" style="width: 200px" />
+                <span asp-validation-for="user.DateTo" class="text-danger"></span>
+            </div>
+            <div class="col-md-12 text-center">
+                <h4 class="my-4 h4 secondary-heading">Select city</h4>
+                <select asp-for="city.Id" class="browser-default custom-select" style="width: 200px">
+                    <option value="">Select city</option>
+                    @foreach (var item in Model.cities)
+                     {
+                        <option value="@item.Id">@item.Name</option>
+                     }
+                </select>
+                <span asp-validation-for="city.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirm" class="btn btn-primary btn-lg" />
+            </div>
+        </form>
+    </div>
+    <a class="btn btn-outline-dark btn-lg" href="/TestJQuery">Test page</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="~/js/datepickerScript.js"></script>
+<script src="~/js/AvailableCarsScript.js"></script>

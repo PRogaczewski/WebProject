@@ -1,0 +1,53 @@
+﻿
+@page
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@model TestIdentity.Pages.CarRental.CarsModel
+@{
+}
+<div class="m-2">
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        if (User.Identity.Name == "admin@gmail.com")
+        {
+            <p>
+                <a asp-page="CreateCar" class="btn-dark btn-lg">Add new car</a>
+            </p>
+        }
+    }
+    <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr><th>Car name</th><th>Model</th><th>Price per day</th><th>City</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.cars)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Model</td>
+                    <td>$ @item.Price.ToString("N")</td>
+                    <td>@item.City.Name</td>
+
+                    @if (SignInManager.IsSignedIn(User)) //admin can edit n delete cars from this page
+                    {
+                        if (User.Identity.Name == "admin@gmail.com")
+                        {
+                            <td>
+                                <a asp-page="DeleteCar" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                            <td>
+                                <a asp-page="EditCar" asp-route-id="@item.Id">Edit</a>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-page="/Index">Back to List</a>
+</div>
+

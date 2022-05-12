@@ -1,0 +1,16 @@
+﻿@page
+@model CarRentalWeb.Pages.CarRental.NotificationPageModel
+@{
+}
+
+<h1>Thank you!</h1>
+
+@Model.NotificationMessage
+
+<div>
+    You will be redirected to home page after
+    <br />
+    <span id="CountDown"></span> seconds.
+</div>
+
+<script src="~/js/5SecondsRedirectScript.js"></script>

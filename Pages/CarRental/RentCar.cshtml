@@ -1,0 +1,136 @@
+﻿@page
+
+@model TestIdentity.Pages.CarRental.RentCarModel
+@{ double carPrice = Model.car.Price; }
+
+<h1>Rent a car</h1>
+<dl class="row">
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.car.Name)
+        @Html.DisplayFor(model => model.car.Model)
+    </dd>
+</dl>
+<dl class="row">
+    <dd class="col-sm-10">
+        Price per day: $ @Html.DisplayFor(model => model.car.Price)
+    </dd>
+</dl>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="user.Name" class="control-label"></label>
+                <input asp-for="user.Name" class="form-control" />
+                <span asp-validation-for="user.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="user.Lastname" class="control-label"></label>
+                <input asp-for="user.Lastname" class="form-control" />
+                <span asp-validation-for="user.Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="user.PhoneNumber" class="control-label"></label>
+                <input asp-for="user.PhoneNumber" class="form-control" />
+                <span asp-validation-for="user.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="user.DateFrom" class="control-label"></label>
+                <input asp-for="user.DateFrom" type="date" id="DateFrom" style="width: 200px" readonly />
+                <span asp-validation-for="user.DateFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="user.DateTo" class="control-label"></label>
+                <input asp-for="user.DateTo" type="date" id="DateTo" style="width: 200px" readonly />
+                <span asp-validation-for="user.DateTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.selectedCity" class="control-label"></label>
+                <input asp-for="@Model.selectedCity" class="form-control" id="DateTo"
+                       style="width: 200px" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="user.TotalCost" class="control-label">Total cost: $</label>
+                <input asp-for="user.TotalCost" id="price" class="form-control" readonly
+                       placeholder="0,00" />
+            </div>
+            <div class="col-md-12 text-center">
+                <h4 class="my-4 h4 secondary-heading">Select notification type: </h4>
+                <select asp-for="notifications" class="browser-default custom-select" style="width: 200px">
+                    <option value="">Notification</option>
+                    @foreach (var item in Enum.GetValues(typeof(CarRentalWeb.Notification.Notifications)))
+                    {
+        <option value="@item">@item</option>}
+                </select>
+                <span asp-validation-for="notifications" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirm" class="btn btn-primary btn-lg" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="AvailableCars">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="~/js/RentCarScript.js"></script>
+<script>
+    //values at start
+    var dateStart = new Date("@Model.StartDate.ToString("u")");
+    var dateEnd = new Date("@Model.EndDate.ToString("u")");
+
+    //start date
+    var ds = dateStart.getDate();
+    var ms = dateStart.getMonth() + 1;
+    var yyys = dateStart.getFullYear();
+    if (ds < 10) {
+    ds = '0' + ds
+    }
+    if (ms < 10) {
+    ms = '0' + ms
+    }
+
+    dateStart = yyys + '-' + ms + '-' + ds;
+
+    //end date
+    var de = dateEnd.getDate();
+    var me = dateEnd.getMonth() + 1;
+    var yyye = dateEnd.getFullYear();
+    if (de < 10) {
+    de = '0' + de
+    }
+    if (me < 10) {
+    me = '0' + me
+    }
+
+    dateEnd = yyye + '-' + me + '-' + de;
+
+    document.getElementById("DateFrom").setAttribute("value", dateStart);
+    document.getElementById("DateTo").setAttribute("value", dateEnd);
+
+    CalculateTotalPrice();
+
+    function CalculateTotalPrice() {
+        var from = document.getElementById("DateFrom").value;
+        var to = document.getElementById("DateTo").value;
+
+        var dateFrom = new Date(from);
+        var dateTo = new Date(to);
+
+        var diff = dateTo.getTime() - dateFrom.getTime();
+        var diffDays = diff / (1000 * 3600 * 24);
+
+        var cost = @carPrice;
+
+        var total = document.getElementById("price");
+
+        total.value = cost * diffDays;
+    }
+</script>
